@@ -6,3 +6,4 @@ while player1!= num_aleatorio:
     num_aleatorio =random.randit(0,9)
     intentos += 1
     print(f"Felicidades, el numero era {num_aleatorio} y lo adivinaste en {intentos} intentos")
+    
