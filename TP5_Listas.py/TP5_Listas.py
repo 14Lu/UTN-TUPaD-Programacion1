@@ -119,4 +119,3 @@ for i, fila in enumerate(ventas, star=1):
     totales_productos = [sum(fila) for fila in ventas]
     prod_max = totales_dias.index(max(totales_productos)) + 1
     print("Producto mas vendido:", prod_max)
-    
