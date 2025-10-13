@@ -1,0 +1,147 @@
+import math
+
+# 1) Imprimir el mensaje 'Hola Mundo' en pantalla.
+def imprimir_hola_mundo():
+ #Imprimimos el saludo solicitado en la consiga.
+    print ("Hola Mundo!")
+
+
+# 2) Saludo personalizado
+def saludar_usuario(nombre):
+    #Devuelve un saludo usando el nombre ingresado
+    saludo = f"Hola {nombre}!"
+    return saludo
+
+
+# 3) Crear una funcion con el nombre informacion_personal(nombre, apellido, edad, residencia)
+def informacion_personal(nombre, apellido, edad, residencia):
+    #Muestra un mensaje con los datos personales.
+    print(f"Soy {nombre} {apellido}, tengo {edad} años y vivo {residencia}.")
+
+
+# 4) Crear dos funciones:
+# calcular_area_circulo(radio) y calcular_perimetro_circulo(radio)
+def calcular_area_circulo(radio):
+    #Calcular el area del circulo: pi * r^2
+    area = math.pi * (radio ** 2)
+    return area
+def calcular_perimetro_circulo(radio):
+    #Calcular el perimetro del circulo: 2 * pi * r
+    perimetro = 2 * math.pi * radio
+    return perimetro
+
+
+# 5) Crear una funcion llamada segundos_a_horas(segundos)
+def segundos_a_horas(segundos):
+    #Convertir los segundos a horas (1 hora = 3600 segundos)
+    horas = segundos / 3600
+    return horas
+
+
+# 6) Crear una funcion llamada tabla_multiplicar(numero)
+def tabla_multiplicar(numero):
+    # Muestra la tabla de multiplicar del numero recibido (del 1 al 10)
+    print(f"\nTabla del {numero}:")
+    for i in range(1, 11):
+        print(f"{numero} x {i} = {numero * i}")
+
+
+# 7) Crear una funcion llamada operaciones_basicas(a, b)
+def operaciones_basicas(a, b):
+    #Devuelve una tupla con (suma, resta, multiplicacion, division)
+    suma = a + b
+    resta = a - b
+    multiplicacion = a * b
+    #Controlamos que no se divida por cero
+    if b != 0:
+        division = a/b
+    else:
+        division = "No se puede dividir por cero"
+        return suma, resta, multiplicacion, division
+    
+
+# 8) Crear una funcion llamada calcular_imc(peso, altura)
+def calcular_imc(peso, altura):
+    #Calcular el indice de masa corporal(IMC = peso / altura^2)
+    imc = peso / (altura ** 2)
+    return imc
+
+
+# 9) Crear una funcion llamada celsius_a_fahrenheit(celsius)
+def celsius_a_fahrenheit(celsius):
+    #Convertir grados Celsius a Fahrenheit
+    fahrenheit = (celsius * 9/5) + 32
+    return fahrenheit
+
+# 10) Crear una funcion llamada calcular_promedio(a, b, c)
+def calcular_promedio(a, b, c) :
+    #Calcula el promedio de tres numeros
+    promedio = (a + b + c) / 3
+    return promedio
+
+######### ORDEN DE LISTA ###########
+def main():
+
+ # 1) HOLA MUNDO
+    imprimir_hola_mundo()
+
+# 2) Saludo al usuario
+    nombre = input("\nIngresa tu nombre: ")
+    print(saludar_usuario(nombre))
+
+ # 3) Informacion personal
+    print("\n--- Informacion personal ---")
+    nombre = input("Nombre: ")
+    apellido = input("Apellido: ")
+    edad = int(input("Edad: "))
+    residencia = input("Residencia: ")
+    informacion_personal(nombre, apellido, edad, residencia)
+
+ # 4) Area y perimetro de un círculo
+    print("\n--- Círculo ---")
+    radio = float(input("Ingresa el radio del circulo: "))
+    print(f"Area: {calcular_area_circulo(radio):.2f}")
+    print(f"Perimetro: {calcular_perimetro_circulo(radio):.2f}")
+
+ # 5) Segundos a horas
+    print("\n--- Conversion de segundos a horas ---")
+    segundos = float(input("Ingresa los segundos: "))
+    print(f"Equivalen a {segundos_a_horas(segundos):.2f} horas.")
+
+ # 6) Tabla de multiplicar
+    print("\n--- Tabla de multiplicar ---")
+    numero = int(input("Ingresa un numero: "))
+    tabla_multiplicar(numero)
+
+ # 7) Operaciones basicas
+    print("\n--- Operaciones basicas ---")
+    a = float(input("Primer numero: "))
+    b = float(input("Segundo número: "))
+    suma, resta, mult, div = operaciones_basicas(a, b)
+    print(f"Suma: {suma}")
+    print(f"Resta: {resta}")
+    print(f"Multiplicacion: {mult}")
+    print(f"Division: {div}")
+
+ # 8) Calculo de IMC
+    print("\n--- Calculo de IMC ---")
+    peso = float(input("Peso (kg): "))
+    altura = float(input("Altura (m): "))
+    print(f"Tu IMC es: {calcular_imc(peso, altura):.2f}")
+
+ # 9) Conversion de temperatura
+    print("\n--- Conversion de temperatura ---")
+    celsius = float(input("Temperatura en Celsius: "))
+    print(f"Equivale a {celsius_a_fahrenheit(celsius):.2f}° Fahrenheit.")
+
+ # 10) Calculo de promedio
+    print("\n--- Calculo de promedio ---")
+    a = float(input("Primer número: "))
+    b = float(input("Segundo número: "))
+    c = float(input("Tercer número: "))
+    print(f"El promedio es: {calcular_promedio(a, b, c):.2f}")
+
+
+# Punto de entrada del programa
+if __name__ == "__main__":
+    main()
