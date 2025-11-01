@@ -1,8 +1,5 @@
 import csv
 import os
-
-# ---------- FUNCIONES AUXILIARES ----------
-
 def normalizar_titulo(titulo):
     """Normaliza el título eliminando espacios y pasando a mayúsculas."""
     return titulo.strip().upper()
@@ -34,9 +31,6 @@ def buscar_titulo(catalogo, titulo):
         if normalizar_titulo(libro["TITULO"]) == normalizar_titulo(titulo):
             return i
     return -1
-
-# ---------- FUNCIONES DEL MENÚ ----------
-
 def ingresar_titulos(catalogo):
     """Permite ingresar varios títulos nuevos."""
     while True:
@@ -129,8 +123,6 @@ def actualizar_ejemplares(catalogo):
     else:
         print("⚠️ Opción no válida.")
 
-# ---------- MENÚ PRINCIPAL ----------
-
 def menu():
     catalogo = cargar_catalogo()
 
@@ -159,7 +151,5 @@ def menu():
                 print("👋 Programa finalizado.")
                 break
             case _: print("⚠️ Opción inválida. Intente de nuevo.")
-
-# ---------- PUNTO DE ENTRADA ----------
 if __name__ == "__main__":
     menu()
