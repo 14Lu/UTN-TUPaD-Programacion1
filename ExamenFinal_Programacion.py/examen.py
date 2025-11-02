@@ -1,11 +1,12 @@
 import csv
 import os
+
 def normalizar_titulo(titulo):
-    """Normaliza el título eliminando espacios y pasando a mayúsculas."""
+    """Elimina espacios y convierte a mayúsculas."""
     return titulo.strip().upper()
 
 def cargar_catalogo():
-    """Carga el catálogo desde catalogo.csv o crea uno vacío."""
+    """Carga catálogo desde CSV o devuelve lista vacía si no existe."""
     catalogo = []
     if os.path.exists("catalogo.csv"):
         with open("catalogo.csv", newline="", encoding="utf-8") as archivo:
@@ -18,7 +19,7 @@ def cargar_catalogo():
     return catalogo
 
 def guardar_catalogo(catalogo):
-    """Guarda el catálogo actual en catalogo.csv."""
+    """Guarda el catálogo en CSV."""
     with open("catalogo.csv", "w", newline="", encoding="utf-8") as archivo:
         campos = ["TITULO", "CANTIDAD"]
         escritor = csv.DictWriter(archivo, fieldnames=campos)
@@ -26,68 +27,72 @@ def guardar_catalogo(catalogo):
         escritor.writerows(catalogo)
 
 def buscar_titulo(catalogo, titulo):
-    """Devuelve el índice del título si existe, o -1 si no."""
+    """Devuelve el índice del título si existe o -1 si no."""
     for i, libro in enumerate(catalogo):
         if normalizar_titulo(libro["TITULO"]) == normalizar_titulo(titulo):
             return i
     return -1
-def ingresar_titulos(catalogo):
-    """Permite ingresar varios títulos nuevos."""
+def ingresar_titulos_multiples(catalogo):
     while True:
-        titulo = input("Ingrese título (ENTER para salir): ").strip()
-        if titulo == "":
+        cantidad_total = input("¿Cuántos libros desea ingresar?: ")
+        if cantidad_total.isdigit():
+            cantidad_total = int(cantidad_total)
             break
-        if buscar_titulo(catalogo, titulo) != -1:
-            print("⚠️ Ese título ya existe. Ingrese otro.")
         else:
-            cantidad = input("Ingrese cantidad de ejemplares: ")
-            if cantidad.isdigit():
-                catalogo.append({
-                    "TITULO": normalizar_titulo(titulo),
-                    "CANTIDAD": int(cantidad)
-                })
-                guardar_catalogo(catalogo)
-                print("✅ Título agregado correctamente.")
-            else:
-                print("⚠️ Ingrese solo números en la cantidad.")
+            print("⚠️ Ingrese solo números.")
 
+    for i in range(cantidad_total):
+        print(f"\nLibro {i+1} de {cantidad_total}")
+        titulo = input("Ingrese título: ").strip()
+        if titulo == "":
+            print("⚠️ El título no puede estar vacío.")
+            continue
+        if buscar_titulo(catalogo, titulo) != -1:
+            print("⚠️ Ese título ya existe, se omite.")
+            continue
+        cantidad = input("Ingrese cantidad de ejemplares: ")
+        if cantidad.isdigit() and int(cantidad) >= 0:
+            catalogo.append({
+                "TITULO": normalizar_titulo(titulo),
+                "CANTIDAD": int(cantidad)
+            })
+        else:
+            print("⚠️ Cantidad inválida. Se omite este libro.")
+
+    guardar_catalogo(catalogo)
+    print("\n✅ Libros cargados correctamente.\n")
 def ingresar_ejemplares(catalogo):
-    """Agrega ejemplares a un título existente."""
     titulo = input("Ingrese título existente: ")
     indice = buscar_titulo(catalogo, titulo)
     if indice == -1:
         print("⚠️ Título no encontrado.")
+        return
+    cantidad = input("Ingrese cantidad a agregar: ")
+    if cantidad.isdigit():
+        catalogo[indice]["CANTIDAD"] += int(cantidad)
+        guardar_catalogo(catalogo)
+        print("✅ Ejemplares agregados correctamente.")
     else:
-        cantidad = input("Ingrese cantidad a agregar: ")
-        if cantidad.isdigit():
-            catalogo[indice]["CANTIDAD"] += int(cantidad)
-            guardar_catalogo(catalogo)
-            print("✅ Ejemplares agregados correctamente.")
-        else:
-            print("⚠️ Ingrese solo números.")
-
+        print("⚠️ Ingrese solo números.")
 def mostrar_catalogo(catalogo):
-    """Muestra todo el catálogo en pantalla."""
     print("\n📚 --- CATÁLOGO ACTUAL --- 📚")
     if len(catalogo) == 0:
         print("No hay libros cargados todavía.")
     else:
+        print(f"{'TÍTULO':<40} | {'CANTIDAD':>8}")
+        print("-" * 52)
         for libro in catalogo:
-            print(f"- {libro['TITULO']}: {libro['CANTIDAD']} ejemplares")
+            print(f"{libro['TITULO']:<40} | {libro['CANTIDAD']:>8}")
     print("-----------------------------\n")
-
 def consultar_disponibilidad(catalogo):
-    """Consulta cuántos ejemplares hay de un título."""
-    titulo = input("Ingrese el título: ")
+    titulo = input("Ingrese el título a consultar: ")
     indice = buscar_titulo(catalogo, titulo)
     if indice == -1:
         print("⚠️ Ese título no está en el catálogo.")
     else:
         cant = catalogo[indice]["CANTIDAD"]
         print(f"El libro '{catalogo[indice]['TITULO']}' tiene {cant} ejemplares disponibles.")
-
 def listar_agotados(catalogo):
-    """Muestra los libros con 0 ejemplares."""
     print("\n📕 --- LIBROS AGOTADOS ---")
     agotados = [libro for libro in catalogo if libro["CANTIDAD"] == 0]
     if agotados:
@@ -96,17 +101,33 @@ def listar_agotados(catalogo):
     else:
         print("No hay libros agotados.")
     print("----------------------------\n")
-
+def agregar_titulo_individual(catalogo):
+    titulo = input("Ingrese nuevo título: ").strip()
+    if titulo == "":
+        print("⚠️ El título no puede estar vacío.")
+        return
+    if buscar_titulo(catalogo, titulo) != -1:
+        print("⚠️ Ese título ya existe.")
+        return
+    cantidad = input("Ingrese cantidad inicial: ")
+    if cantidad.isdigit() and int(cantidad) >= 0:
+        catalogo.append({
+            "TITULO": normalizar_titulo(titulo),
+            "CANTIDAD": int(cantidad)
+        })
+        guardar_catalogo(catalogo)
+        print("✅ Título agregado correctamente.")
+    else:
+        print("⚠️ Cantidad inválida.")
 def actualizar_ejemplares(catalogo):
-    """Permite registrar un préstamo o devolución."""
     titulo = input("Ingrese título: ")
     indice = buscar_titulo(catalogo, titulo)
     if indice == -1:
         print("⚠️ Título no encontrado.")
         return
 
-    print("1. Préstamo (resta ejemplares)")
-    print("2. Devolución (suma ejemplares)")
+    print("1. Préstamo (resta 1 si hay ejemplares)")
+    print("2. Devolución (suma 1)")
     opcion = input("Seleccione una opción: ")
 
     if opcion == "1":
@@ -122,7 +143,6 @@ def actualizar_ejemplares(catalogo):
         print("📗 Devolución registrada.")
     else:
         print("⚠️ Opción no válida.")
-
 def menu():
     catalogo = cargar_catalogo()
 
@@ -134,22 +154,26 @@ def menu():
 3. Mostrar catálogo
 4. Consultar disponibilidad
 5. Listar agotados
-6. Actualizar ejemplares (préstamo/devolución)
-7. Salir
+6. Agregar título individual
+7. Actualizar ejemplares (préstamo/devolución)
+8. Salir
 =============================
 """)
         opc = input("Seleccione una opción: ")
 
         match opc:
-            case "1": ingresar_titulos(catalogo)
+            case "1": ingresar_titulos_multiples(catalogo)
             case "2": ingresar_ejemplares(catalogo)
             case "3": mostrar_catalogo(catalogo)
             case "4": consultar_disponibilidad(catalogo)
             case "5": listar_agotados(catalogo)
-            case "6": actualizar_ejemplares(catalogo)
-            case "7":
+            case "6": agregar_titulo_individual(catalogo)
+            case "7": actualizar_ejemplares(catalogo)
+            case "8":
                 print("👋 Programa finalizado.")
                 break
-            case _: print("⚠️ Opción inválida. Intente de nuevo.")
+            case _:
+                print("⚠️ Opción inválida. Intente de nuevo.")
 if __name__ == "__main__":
     menu()
+
