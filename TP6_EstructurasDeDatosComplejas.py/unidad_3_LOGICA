@@ -1,0 +1,13 @@
+# Unidad 3 - Lógica
+
+temperatura = int(input("Ingresá la temperatura actual: "))
+lluvia = input("¿Está lloviendo? (si/no): ").lower()
+
+if temperatura > 25 and lluvia == "no":
+    print("Podés salir con ropa liviana ☀️")
+elif temperatura <= 25 and lluvia == "si":
+    print("Llevá paraguas y abrigo 🌧️")
+elif temperatura > 25 and lluvia == "si":
+    print("Hace calor pero está lloviendo, mejor esperá un poco ⛅")
+else:
+    print("Día fresco, pero sin lluvia 🌤️")

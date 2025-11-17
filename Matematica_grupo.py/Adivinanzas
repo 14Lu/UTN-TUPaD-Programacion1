@@ -1,0 +1,72 @@
+import random
+import time
+
+# Se creara un juego en donde el usuario deba adivinar entre diferentes opciones, 
+# que numero en decimal equivale el numero binario dado, el mismo sumara puntos y perdera 
+# vidas
+
+# Lista
+lista_binaria = ["1010101", "1100100", "0110110", "1000111", "0011001", "1110101", "0101010", "1001100", "0111000", "1101011"]
+# Creamos una lista con 4 espacios vacios para las opciones
+lista_random = [None] * 4
+# Creamos un numero random entre 0 y 99
+num_random = random.randint(0,100)
+binario = ""
+num = 0
+numero_decimal = 0
+vencedor = False
+opcion = 0
+resto = 0
+vidas = 2
+indice = random.randint(0,3)
+#print(num_random)
+
+# pasar el numero random a binario
+numero_decimal = num_random
+
+while num_random > 0:
+    
+    resto = num_random % 2  
+    binario = str(resto) + binario
+    num_random = num_random // 2
+    
+#print(binario)
+
+# Crea una lista y le agrega 3 elementos random de la lista binaria, despues le agrega el valor correcto al final
+opcion_random = random.sample(lista_binaria, 3)
+opcion_random.append(binario)
+
+#print(opcion_random)
+# Usando el metodo shuffle, mezclamos los elementos de la lista para que el valor correcto no este siempre al final
+random.shuffle(opcion_random)
+#print(opcion_random)
+
+
+# Programa principal, mientras no sea correcto y tenga vidas, seguira corriendo
+while vencedor != True and vidas > 0:
+
+    print("---Juego de Adivinanza de numero binario a decimal")
+    print(F"Debes adivinar el quivalente en binario del numero {numero_decimal} entre las siguientes 4 opciones, recuerda que solo tienes 2 oportunidades")
+    
+    for i, num in enumerate(opcion_random): 
+        print(f"Opcion: {i + 1}: {num}")
+    entrada = input("Ingrese una opcion: ").strip()
+    opcion = int(entrada) - 1
+    while opcion < 0 or opcion > 3 or opcion == "":
+        print("Opcion invalida")
+        entrada = input("Ingrese una opcion: ").strip()
+        opcion = int(entrada) - 1
+    if opcion_random[opcion] == binario: 
+        vencedor = True
+        print(f"Felicidades, haz acertado. El equivalente en binario del numero {numero_decimal} es {binario}")
+        
+        
+    else:
+        if vidas >= 2:
+            vidas -= 1
+            print(f"Erraste, pierdes una vida, te queda {vidas} vida")
+        else:
+            print("Lo siento. Se te acabaron las vidas")
+            time.sleep(3)
+            break
+    time.sleep(3)

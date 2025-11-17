@@ -1,0 +1,26 @@
+# Unidad 6 - Grafos y Árboles
+
+# Representación simple de un grafo usando un diccionario
+
+grafo = {
+    "A": ["B", "C"],
+    "B": ["A", "D", "E"],
+    "C": ["A", "F"],
+    "D": ["B"],
+    "E": ["B", "F"],
+    "F": ["C", "E"]
+}
+
+# Recorrido del grafo (Búsqueda en profundidad)
+def dfs(grafo, nodo, visitado=None):
+    if visitado is None:
+        visitado = set()
+    visitado.add(nodo)
+    print(nodo, end=" ")
+    for vecino in grafo[nodo]:
+        if vecino not in visitado:
+            dfs(grafo, vecino, visitado)
+    return visitado
+
+print("Recorrido del grafo desde A:")
+dfs(grafo, "A")

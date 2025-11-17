@@ -1,0 +1,46 @@
+# Unidad 4 - Conjuntos
+
+def mostrar_conjunto(nombre, s):
+    """Imprime el conjunto ordenado para que la salida sea determinística."""
+    print(f"{nombre}: {sorted(list(s))}")
+
+def main():
+    # Definición de conjuntos (literal con llaves -> OK si tiene elementos)
+    usuarios_web = {"Ana", "Carlos", "Pedro", "Micaela"}
+    usuarios_app = {"Pedro", "Lucía", "Micaela", "Juan"}
+
+    # Operaciones básicas
+    union = usuarios_web | usuarios_app          # unión
+    interseccion = usuarios_web & usuarios_app   # intersección
+    diferencia = usuarios_web - usuarios_app     # elementos en web pero no en app
+    diferencia_simetrica = usuarios_web ^ usuarios_app  # elementos en uno u otro, pero no en ambos
+
+    # Mostrar resultados (ordenados para facilitar lectura en el video)
+    print("----- Conjuntos originales -----")
+    mostrar_conjunto("Usuarios web", usuarios_web)
+    mostrar_conjunto("Usuarios app", usuarios_app)
+    print()
+
+    print("----- Operaciones entre conjuntos -----")
+    mostrar_conjunto("Unión (todos los usuarios)", union)
+    mostrar_conjunto("Intersección (ambas plataformas)", interseccion)
+    mostrar_conjunto("Diferencia (solo web)", diferencia)
+    mostrar_conjunto("Diferencia simétrica (solo uno u otro)", diferencia_simetrica)
+    print()
+
+    # Ejemplos de uso práctico
+    # 1) Comprobar pertenencia
+    nombre = "Pedro"
+    print(f"¿{nombre} está en usuarios_web?:", nombre in usuarios_web)
+
+    # 2) Añadir / eliminar elementos
+    usuarios_web.add("Sofía")
+    usuarios_app.discard("Juan")  # discard no lanza error si no existe
+
+    print()
+    print("----- Después de modificaciones -----")
+    mostrar_conjunto("Usuarios web (modificado)", usuarios_web)
+    mostrar_conjunto("Usuarios app (modificado)", usuarios_app)
+
+if __name__ == "__main__":
+    main()
