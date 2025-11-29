@@ -1,0 +1,5 @@
+Lapicera,160.5,50
+Cuaderno,255,15
+Alpine A525,22035552,2
+Termo Stanley,125599,23
+Goma,60,50
